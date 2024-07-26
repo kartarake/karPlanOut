@@ -1,33 +1,39 @@
-from kivy.app import App
-from kivy.core.window import Window
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.lang import Builder
+from dearpygui import dearpygui as pygui
 
-import os
+class app:
+    def __init__(self) -> None:
+        self.apptitle = "karPlanOut"
+        
+        self.appwidth = 1930
+        self.appheight = 1040
 
-class firstpage(Screen):
-    pass    
+        self.init_pygui()
+        
+        self.page_firstpage()
 
-class karPlanOut(App):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.kivy_folder = ".\\kivy\\"
+        self.start_pygui()
 
-    def build(self):
-        Window.size = (1920, 1010)
-        Window.left = 0
-        Window.top = 25
+    def init_pygui(self) -> None:
+        pygui.create_context()
+        pygui.create_viewport(
+            title=self.apptitle,
+            height=self.appheight,
+            width=self.appwidth,
+            x_pos=0,
+            y_pos=0,
+        )
+        pygui.setup_dearpygui()
 
-        list_of_rpaths = os.listdir(self.kivy_folder)
-        list_of_paths = [os.path.join(self.kivy_folder, path) for path in list_of_rpaths]
+    def start_pygui(self) -> None:
+        pygui.show_viewport()
+        pygui.set_primary_window(self.apptitle, True)
+        pygui.start_dearpygui()
+        pygui.destroy_context()
 
-        for path in list_of_paths:
-            Builder.load_file(path)
-
-        sm = ScreenManager()
-        sm.add_widget(firstpage())
-
-        return sm
+    def page_firstpage(self) -> None:
+        with pygui.window(tag=self.apptitle):
+            pygui.add_button(label="Sign in")
+            pygui.add_button(label="Look around as a guest")
 
 if __name__ == "__main__":
-    karPlanOut().run()
+    app()
