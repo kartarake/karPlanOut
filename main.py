@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 
@@ -13,6 +14,10 @@ class karPlanOut(App):
         self.kivy_folder = ".\\kivy\\"
 
     def build(self):
+        Window.size = (1920, 1010)
+        Window.left = 0
+        Window.top = 25
+
         list_of_rpaths = os.listdir(self.kivy_folder)
         list_of_paths = [os.path.join(self.kivy_folder, path) for path in list_of_rpaths]
 

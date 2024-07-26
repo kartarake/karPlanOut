@@ -1,3 +1,5 @@
+#: import utils kivy.utils
+
 ScreenManager:
     id: screen_manager
     firstpage:
@@ -7,11 +9,16 @@ ScreenManager:
     BoxLayout:
         canvas.before:
             Color: 
-                rgba: (235/255, 235/255, 211/255, 1)
+                rgba: (0.9216, 0.9216, 0.8275, 1)
+            Rectangle: 
+                size: self.size
+                pos: self.pos
         orientation: "vertical"
         Button:
             text: "Sign In"
-            background_color: 181/255, 214/255, 178/255, 1
+            background_normal: ''
+            background_color: (0.710, 0.839, 0.698, 1)
         Button:
             text: "Look around as guest"
-            background_color: 181/255, 214/255, 178/255, 1
+            background_normal: ''
+            background_color: (0.710, 0.839, 0.698, 1)
