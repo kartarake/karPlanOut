@@ -1,4 +1,7 @@
 from dearpygui import dearpygui as pygui
+import json, os
+
+import libs.colorpack_handle
 
 class app:
     def __init__(self) -> None:
@@ -7,6 +10,13 @@ class app:
         
         self.appwidth = 1930 # Window's width
         self.appheight = 1040 # Window's height
+
+        if os.path.exists(".\\settings.json"): #loading settings
+            self.load_settings()
+        else:
+            self.create_settings()
+
+        self.colorpack_load() # loading color palatte
 
         # Initializing and setting up stuff!
         self.init_pygui()
@@ -35,6 +45,20 @@ class app:
         pygui.start_dearpygui()
         pygui.destroy_context()
 
+    def create_settings(self) -> None:
+        settings = {
+            "colorpack" : "forest",
+        }
+        path = ".\\settings.json"
+        with open(path, "w") as f:
+            json.dump(settings, f, indent=3)
+        self.settings = settings
+
+    def load_settings(self) -> None:
+        path = ".\\settings.json"
+        with open(path, "r") as f:
+            self.settings =  json.load(f)
+
     def font_load(self) -> None:
         self.fontpack = {}
         with pygui.font_registry():
@@ -44,6 +68,10 @@ class app:
             
             # Specific use fonts
             self.fontpack["firstpage_buttons"] = pygui.add_font(r"assets\fonts\Jura\static\Jura-Bold.ttf", 16)
+
+    def colorpack_load(self) -> None:
+        self.colorpack_name = self.settings["colorpack"]
+        self.colorpack = libs.colorpack_handle.load_colorpack(self.colorpack_name)
 
     def page_firstpage(self) -> None:
         with pygui.window(tag=self.apptitle):

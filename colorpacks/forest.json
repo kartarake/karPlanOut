@@ -1,0 +1,11 @@
+{
+    "header":"This is a colorpack file for karPlanOut application.",
+    "version":"v0",
+    "primary":"#ffffff",
+    "primary_bg":"#5E716A",
+    "secondary":"#ebebd3",
+    "text":"#000000",
+    "accent1":"#0e402d",
+    "accent2":"#295135",
+    "accent3":"#b5d6b2"
+}
