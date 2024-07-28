@@ -36,6 +36,7 @@ class app:
             width=self.appwidth,
             x_pos=0,
             y_pos=0,
+            resizable=False,
         )
         pygui.setup_dearpygui()
 
@@ -113,7 +114,7 @@ class app:
                 label="Sign in",
                 width=600,
                 height=50,
-                tag="signin_button"
+                tag="signin_button",
             )
             pygui.bind_item_font(signin_button, self.fontpack["firstpage_buttons"])
             pos = (self.calc_for_x_centre(600), self.calc_for_y_centre((50, 50), gap=10)[0])
@@ -123,18 +124,29 @@ class app:
                 label="Look around as a guest",
                 width=600,
                 height=50,
-                tag="guest_button"
+                tag="guest_button",
             )
             pygui.bind_item_font(guest_button, self.fontpack["firstpage_buttons"])
             pos = (self.calc_for_x_centre(600), self.calc_for_y_centre((50, 50), gap=10)[1])
             pygui.set_item_pos("guest_button", pos)
 
-        with pygui.theme() as item_theme:
+        with pygui.theme() as win_theme:
             with pygui.theme_component(pygui.mvAll):
                 color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["secondary"])
-                pygui.add_theme_color(pygui.mvThemeCol_WindowBg, color)
+                pygui.add_theme_color(pygui.mvThemeCol_WindowBg, color, category=pygui.mvThemeCat_Core)
+
+                color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["text"])
+                pygui.add_theme_color(pygui.mvThemeCol_Text, color, category=pygui.mvThemeCat_Core)
         
-        pygui.bind_item_theme(win, item_theme)
+        pygui.bind_item_theme(win, win_theme)
+
+        with pygui.theme() as button_theme:
+            with pygui.theme_component(pygui.mvButton):
+                color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["accent3"])
+                pygui.add_theme_color(pygui.mvThemeCol_Button, color, category=pygui.mvThemeCat_Core)
+
+        pygui.bind_item_theme("signin_button", button_theme)
+        pygui.bind_item_theme("guest_button", button_theme)
 
 if __name__ == "__main__":
     app()
