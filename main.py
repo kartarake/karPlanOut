@@ -1,5 +1,5 @@
 from dearpygui import dearpygui as pygui
-import json, os
+import json, os, math
 
 import libs.colorpack_handle
 
@@ -73,21 +73,61 @@ class app:
         self.colorpack_name = self.settings["colorpack"]
         self.colorpack = libs.colorpack_handle.load_colorpack(self.colorpack_name)
 
+    def calc_for_x_centre(self, item_width:int|tuple|list, gap:int=0) -> int|tuple|list:
+        if isinstance(item_width, tuple):
+            sum_of_width = sum(item_width)
+            n = len(item_width)
+            free_space = self.appwidth - sum_of_width - n*gap
+            half_space = math.ceil(free_space/2)
+            x_pos = [half_space]
+            first = True
+            for width in item_width:
+                if first: first = False; prev_width = width; continue
+                x_pos.append(half_space + prev_width + gap)
+                prev_width = prev_width + width + gap
+        else:
+            free_space = self.appwidth - item_width
+            x_pos = math.ceil(free_space/2)
+        return x_pos
+    
+    def calc_for_y_centre(self, item_height:int|tuple|list, gap:int=0) -> int|tuple|list:
+        if isinstance(item_height, tuple):
+            sum_of_height = sum(item_height)
+            n = len(item_height)
+            free_space = self.appheight - sum_of_height - n*gap
+            half_space = math.ceil(free_space/2)
+            y_pos = [half_space]
+            first = True
+            for width in item_height:
+                if first: first = False; prev_width = width; continue
+                y_pos.append(half_space + prev_width + gap)
+                prev_width = prev_width + width + gap
+        else:
+            free_space = self.appwidth - item_height
+            y_pos = math.ceil(free_space/2)
+        return y_pos
+
     def page_firstpage(self) -> None:
         with pygui.window(tag=self.apptitle):
             signin_button = pygui.add_button(
                 label="Sign in",
                 width=600,
-                height=50
+                height=50,
+                tag="signin_button"
             )
             pygui.bind_item_font(signin_button, self.fontpack["firstpage_buttons"])
+            pos = (self.calc_for_x_centre(600), self.calc_for_y_centre((50, 50), gap=10)[0])
+            pygui.set_item_pos("signin_button", pos)
 
             guest_button = pygui.add_button(
                 label="Look around as a guest",
                 width=600,
                 height=50,
+                tag="guest_button"
             )
             pygui.bind_item_font(guest_button, self.fontpack["firstpage_buttons"])
+            pos = (self.calc_for_x_centre(600), self.calc_for_y_centre((50, 50), gap=10)[1])
+            pygui.set_item_pos("guest_button", pos)
 
 if __name__ == "__main__":
     app()
