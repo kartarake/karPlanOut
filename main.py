@@ -108,7 +108,7 @@ class app:
         return y_pos
 
     def page_firstpage(self) -> None:
-        with pygui.window(tag=self.apptitle):
+        with pygui.window(tag=self.apptitle) as win:
             signin_button = pygui.add_button(
                 label="Sign in",
                 width=600,
@@ -128,6 +128,13 @@ class app:
             pygui.bind_item_font(guest_button, self.fontpack["firstpage_buttons"])
             pos = (self.calc_for_x_centre(600), self.calc_for_y_centre((50, 50), gap=10)[1])
             pygui.set_item_pos("guest_button", pos)
+
+        with pygui.theme() as item_theme:
+            with pygui.theme_component(pygui.mvAll):
+                color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["secondary"])
+                pygui.add_theme_color(pygui.mvThemeCol_WindowBg, color)
+        
+        pygui.bind_item_theme(win, item_theme)
 
 if __name__ == "__main__":
     app()
