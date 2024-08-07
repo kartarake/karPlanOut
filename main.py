@@ -1,7 +1,7 @@
 from dearpygui import dearpygui as pygui
 import json, os, math
 
-import libs.colorpack_handle
+import libs.colorpack
 
 class app:
     def __init__(self) -> None:
@@ -72,7 +72,7 @@ class app:
 
     def colorpack_load(self) -> None:
         self.colorpack_name = self.settings["colorpack"]
-        self.colorpack = libs.colorpack_handle.load_colorpack(self.colorpack_name)
+        self.colorpack = libs.colorpack.load_colorpack(self.colorpack_name)
 
     def calc_for_x_centre(self, item_width:int|tuple|list, gap:int=0) -> int|tuple|list:
         if isinstance(item_width, tuple):
@@ -132,17 +132,17 @@ class app:
 
         with pygui.theme() as win_theme:
             with pygui.theme_component(pygui.mvAll):
-                color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["secondary"])
+                color = libs.colorpack.convert_hex_to_rgb(self.colorpack["secondary"])
                 pygui.add_theme_color(pygui.mvThemeCol_WindowBg, color, category=pygui.mvThemeCat_Core)
 
-                color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["text"])
+                color = libs.colorpack.convert_hex_to_rgb(self.colorpack["text"])
                 pygui.add_theme_color(pygui.mvThemeCol_Text, color, category=pygui.mvThemeCat_Core)
         
         pygui.bind_item_theme(win, win_theme)
 
         with pygui.theme() as button_theme:
             with pygui.theme_component(pygui.mvButton):
-                color = libs.colorpack_handle.convert_hex_to_rgb(self.colorpack["accent3"])
+                color = libs.colorpack.convert_hex_to_rgb(self.colorpack["accent3"])
                 pygui.add_theme_color(pygui.mvThemeCol_Button, color, category=pygui.mvThemeCat_Core)
 
         pygui.bind_item_theme("signin_button", button_theme)
